@@ -1,0 +1,38 @@
+{
+  "generator-jhipster": {
+    "promptValues": {
+      "packageName": "com.memoire.kital.raph"
+    },
+    "jhipsterVersion": "6.10.5",
+    "applicationType": "microservice",
+    "baseName": "cours",
+    "packageName": "com.memoire.kital.raph",
+    "packageFolder": "com/memoire/kital/raph",
+    "serverPort": "8087",
+    "authenticationType": "oauth2",
+    "cacheProvider": "hazelcast",
+    "enableHibernateCache": true,
+    "websocket": false,
+    "databaseType": "sql",
+    "devDatabaseType": "mysql",
+    "prodDatabaseType": "mysql",
+    "searchEngine": false,
+    "messageBroker": false,
+    "serviceDiscoveryType": "eureka",
+    "buildTool": "maven",
+    "enableSwaggerCodegen": false,
+    "jwtSecretKey": "OGM3N2E2YTRhY2U1NjA2MmZlOTY2MWQ4MWIzZWZhOWRmOGYzZDQ1NzE0MDA0NjQ2NGJmNmU1NTllMmRjNTc1YjRmNGU1NDdjZDc5NDMwMjMyZTAyYzBiMGQ4NjIwZmVlOWU5MGIxNDBmOGI4YTNjYjJiNGZmZmYwMDRmMzliNDg=",
+    "embeddableLaunchScript": false,
+    "creationTimestamp": 1661447414108,
+    "testFrameworks": [],
+    "jhiPrefix": "jhi",
+    "entitySuffix": "",
+    "dtoSuffix": "DTO",
+    "otherModules": [],
+    "enableTranslation": false,
+    "clientPackageManager": "npm",
+    "blueprints": [],
+    "skipClient": true,
+    "skipUserManagement": true
+  }
+}
