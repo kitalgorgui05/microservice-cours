@@ -1,0 +1,43 @@
+{
+  "name": "Absence",
+  "fields": [
+    {
+      "fieldName": "idEleve",
+      "fieldType": "String",
+      "fieldValidateRules": ["minlength", "maxlength", "required"],
+      "fieldValidateRulesMinlength": "2",
+      "fieldValidateRulesMaxlength": "255"
+    },
+    {
+      "fieldName": "motif",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "text"
+    },
+    {
+      "fieldName": "etat",
+      "fieldType": "Boolean",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "cours",
+      "otherEntityRelationshipName": "absence",
+      "relationshipName": "cours",
+      "otherEntityField": "id"
+    }
+  ],
+  "changelogDate": "20220827005301",
+  "entityTableName": "absences",
+  "dto": "mapstruct",
+  "pagination": "pagination",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": true,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "cours",
+  "applications": "*",
+  "microserviceName": "cours"
+}

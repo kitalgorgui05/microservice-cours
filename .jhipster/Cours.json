@@ -1,0 +1,60 @@
+{
+  "name": "Cours",
+  "fields": [
+    {
+      "fieldName": "idMatiere",
+      "fieldType": "String",
+      "fieldValidateRules": ["minlength", "maxlength", "required"],
+      "fieldValidateRulesMinlength": "2",
+      "fieldValidateRulesMaxlength": "255"
+    },
+    {
+      "fieldName": "idClasse",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "minlength", "maxlength"],
+      "fieldValidateRulesMinlength": "2",
+      "fieldValidateRulesMaxlength": "255"
+    },
+    {
+      "fieldName": "idAnnee",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "minlength", "maxlength"],
+      "fieldValidateRulesMinlength": "2",
+      "fieldValidateRulesMaxlength": "255"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "absence",
+      "otherEntityRelationshipName": "cours",
+      "relationshipName": "absence"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "enseignant",
+      "otherEntityRelationshipName": "cours",
+      "relationshipName": "enseignant",
+      "otherEntityField": "id"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "horaire",
+      "otherEntityRelationshipName": "cours",
+      "relationshipName": "horaire",
+      "otherEntityField": "id"
+    }
+  ],
+  "changelogDate": "20220827005401",
+  "entityTableName": "cours",
+  "dto": "mapstruct",
+  "pagination": "pagination",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": true,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "cours",
+  "applications": "*",
+  "microserviceName": "cours"
+}
