@@ -12,14 +12,14 @@ import org.mapstruct.*;
 @Mapper(componentModel = "spring", uses = {EnseignantMapper.class, HoraireMapper.class})
 public interface CoursMapper extends EntityMapper<CoursDTO, Cours> {
 
-    @Mapping(source = "enseignant.id", target = "enseignantId")
+    //@Mapping(source = "enseignant.id", target = "enseignant")
     @Mapping(source = "horaire.id", target = "horaireId")
     CoursDTO toDto(Cours cours);
 
     @Mapping(target = "absences", ignore = true)
     @Mapping(target = "removeAbsence", ignore = true)
-    @Mapping(source = "enseignantId", target = "enseignant")
-    @Mapping(source = "horaireId", target = "horaire")
+    //@Mapping(source = "enseignantId", target = "enseignant.id")
+    @Mapping(source = "horaireId", target = "horaire.id")
     Cours toEntity(CoursDTO coursDTO);
 
     default Cours fromId(String id) {

@@ -11,7 +11,6 @@ import java.io.Serializable;
  * A DTO for the {@link com.memoire.kital.raph.domain.Cours} entity.
  */
 public class CoursDTO implements Serializable {
-
     private String id;
 
     @NotNull
@@ -27,6 +26,11 @@ public class CoursDTO implements Serializable {
     private String idAnnee;
 
     private AnneeClient anneeClient;
+
+    private String horaireId;
+    private EnseignantDTO enseignant;
+
+    //private HoraireDTO horaireDTO;
 
     public MatiereClient getMatiereClient() {
         return matiereClient;
@@ -52,9 +56,8 @@ public class CoursDTO implements Serializable {
         this.anneeClient = anneeClient;
     }
 
-    private String enseignantId;
+    //private String enseignantId;
 
-    private String horaireId;
 
     public String getId() {
         return id;
@@ -88,12 +91,12 @@ public class CoursDTO implements Serializable {
         this.idAnnee = idAnnee;
     }
 
-    public String getEnseignantId() {
-        return enseignantId;
+    public EnseignantDTO getEnseignant() {
+        return enseignant;
     }
 
-    public void setEnseignantId(String enseignantId) {
-        this.enseignantId = enseignantId;
+    public void setEnseignant(EnseignantDTO enseignant) {
+        this.enseignant = enseignant;
     }
 
     public String getHoraireId() {
@@ -129,7 +132,7 @@ public class CoursDTO implements Serializable {
             ", idMatiere='" + getIdMatiere() + "'" +
             ", idClasse='" + getIdClasse() + "'" +
             ", idAnnee='" + getIdAnnee() + "'" +
-            ", enseignantId=" + getEnseignantId() +
+            ", enseignantId=" + getEnseignant()+"'" +
             ", horaireId=" + getHoraireId() +
             "}";
     }

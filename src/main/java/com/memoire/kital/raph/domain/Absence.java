@@ -1,6 +1,7 @@
 package com.memoire.kital.raph.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.memoire.kital.raph.restClient.EleveClient;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -30,6 +31,8 @@ public class Absence implements Serializable {
     @Column(name = "id_eleve", length = 255, nullable = false)
     private String idEleve;
 
+    @Transient
+    private EleveClient eleveClient;
     @Lob
     @Column(name = "motif")
     private String motif;
@@ -62,6 +65,14 @@ public class Absence implements Serializable {
 
     public void setIdEleve(String idEleve) {
         this.idEleve = idEleve;
+    }
+
+    public EleveClient getEleveClient() {
+        return eleveClient;
+    }
+
+    public void setEleveClient(EleveClient eleveClient) {
+        this.eleveClient = eleveClient;
     }
 
     public String getMotif() {

@@ -1,5 +1,7 @@
 package com.memoire.kital.raph.service.dto;
 
+import com.memoire.kital.raph.restClient.EleveClient;
+
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import javax.persistence.Lob;
@@ -14,6 +16,8 @@ public class AbsenceDTO implements Serializable {
     @NotNull
     @Size(min = 2, max = 255)
     private String idEleve;
+
+    private EleveClient eleveClient;
 
     @Lob
     private String motif;
@@ -38,6 +42,15 @@ public class AbsenceDTO implements Serializable {
 
     public void setIdEleve(String idEleve) {
         this.idEleve = idEleve;
+    }
+
+
+    public EleveClient getEleveClient() {
+        return eleveClient;
+    }
+
+    public void setEleveClient(EleveClient eleveClient) {
+        this.eleveClient = eleveClient;
     }
 
     public String getMotif() {

@@ -1,7 +1,9 @@
 package com.memoire.kital.raph.service.impl;
 
+import com.memoire.kital.raph.openFeign.AnneRestClient;
 import com.memoire.kital.raph.openFeign.ClasseRestClient;
 import com.memoire.kital.raph.openFeign.MatiereRestClient;
+import com.memoire.kital.raph.restClient.AnneeClient;
 import com.memoire.kital.raph.restClient.ClasseClient;
 import com.memoire.kital.raph.restClient.MatiereClient;
 import com.memoire.kital.raph.service.CoursService;
@@ -36,11 +38,14 @@ public class CoursServiceImpl implements CoursService {
 
     private final MatiereRestClient matiereRestClient;
 
-    public CoursServiceImpl(CoursRepository coursRepository, CoursMapper coursMapper, ClasseRestClient classeRestClient, MatiereRestClient matiereRestClient) {
+    private final AnneRestClient anneRestClient;
+
+    public CoursServiceImpl(CoursRepository coursRepository, CoursMapper coursMapper, ClasseRestClient classeRestClient, MatiereRestClient matiereRestClient, AnneRestClient anneRestClient) {
         this.coursRepository = coursRepository;
         this.coursMapper = coursMapper;
         this.classeRestClient = classeRestClient;
         this.matiereRestClient = matiereRestClient;
+        this.anneRestClient = anneRestClient;
     }
 
     @Override
@@ -67,10 +72,12 @@ public class CoursServiceImpl implements CoursService {
         return coursRepository.findById(id)
             .map(coursMapper::toDto);*/
         Cours cours= coursRepository.findById(id).get();
-        ClasseClient classeClient=classeRestClient.getClasse(cours.getIdClasse());
+        ClasseClient classeClient= classeRestClient.getClasse(cours.getIdClasse()).getBody();
         MatiereClient matiereClient=matiereRestClient.getMatiere(cours.getIdMatiere()).getBody();
+        AnneeClient anneeClient = anneRestClient.getAnnee(cours.getIdAnnee()).getBody();
         cours.setClasseClient(classeClient);
         cours.setMatiereClient(matiereClient);
+        cours.setAnneeClient(anneeClient);
         return Optional.ofNullable(coursMapper.toDto(cours));
     }
 

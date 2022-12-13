@@ -114,6 +114,7 @@
             <optional>true</optional>
         </dependency>
         <!-- end dependance lombok-->
+
         <!--begin dependency openFeign-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>

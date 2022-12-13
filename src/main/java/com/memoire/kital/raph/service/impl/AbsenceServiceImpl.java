@@ -1,5 +1,7 @@
 package com.memoire.kital.raph.service.impl;
 
+import com.memoire.kital.raph.openFeign.IEleveRestClient;
+import com.memoire.kital.raph.restClient.EleveClient;
 import com.memoire.kital.raph.service.AbsenceService;
 import com.memoire.kital.raph.domain.Absence;
 import com.memoire.kital.raph.repository.AbsenceRepository;
@@ -28,9 +30,12 @@ public class AbsenceServiceImpl implements AbsenceService {
 
     private final AbsenceMapper absenceMapper;
 
-    public AbsenceServiceImpl(AbsenceRepository absenceRepository, AbsenceMapper absenceMapper) {
+    private final IEleveRestClient iEleveRestClient;
+
+    public AbsenceServiceImpl(AbsenceRepository absenceRepository, AbsenceMapper absenceMapper, IEleveRestClient iEleveRestClient) {
         this.absenceRepository = absenceRepository;
         this.absenceMapper = absenceMapper;
+        this.iEleveRestClient = iEleveRestClient;
     }
 
     @Override
@@ -53,9 +58,14 @@ public class AbsenceServiceImpl implements AbsenceService {
     @Override
     @Transactional(readOnly = true)
     public Optional<AbsenceDTO> findOne(String id) {
-        log.debug("Request to get Absence : {}", id);
+/*        log.debug("Request to get Absence : {}", id);
         return absenceRepository.findById(id)
-            .map(absenceMapper::toDto);
+            .map(absenceMapper::toDto);*/
+
+        Absence absence = absenceRepository.findById(id).orElse(null);
+        EleveClient eleveClient=iEleveRestClient.getEleve(absence.getIdEleve()).getBody();
+        absence.setEleveClient(eleveClient);
+        return Optional.ofNullable(absenceMapper.toDto(absence));
     }
 
     @Override

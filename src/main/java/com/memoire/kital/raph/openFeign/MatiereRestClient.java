@@ -21,5 +21,5 @@ public interface MatiereRestClient {
     ResponseEntity<List<MatiereClient>> getAllMatieres();
 
     @GetMapping(value = "/api/matieres/{id}")
-    ResponseEntity<MatiereClient> getMatiere(@PathVariable String id);
+     ResponseEntity<MatiereClient> getMatiere(@PathVariable("id") String id);
 }
