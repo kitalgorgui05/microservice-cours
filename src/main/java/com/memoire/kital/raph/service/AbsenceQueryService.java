@@ -4,6 +4,15 @@ import java.util.List;
 
 import javax.persistence.criteria.JoinType;
 
+import com.memoire.kital.raph.openFeign.IAnneRestClient;
+import com.memoire.kital.raph.openFeign.IClasseRestClient;
+import com.memoire.kital.raph.openFeign.IEleveRestClient;
+import com.memoire.kital.raph.openFeign.IMatiereRestClient;
+import com.memoire.kital.raph.repository.CoursRepository;
+import com.memoire.kital.raph.restClient.AnneeClient;
+import com.memoire.kital.raph.restClient.ClasseClient;
+import com.memoire.kital.raph.restClient.EleveClient;
+import com.memoire.kital.raph.restClient.MatiereClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -21,12 +30,6 @@ import com.memoire.kital.raph.service.dto.AbsenceCriteria;
 import com.memoire.kital.raph.service.dto.AbsenceDTO;
 import com.memoire.kital.raph.service.mapper.AbsenceMapper;
 
-/**
- * Service for executing complex queries for {@link Absence} entities in the database.
- * The main input is a {@link AbsenceCriteria} which gets converted to {@link Specification},
- * in a way that all the filters must apply.
- * It returns a {@link List} of {@link AbsenceDTO} or a {@link Page} of {@link AbsenceDTO} which fulfills the criteria.
- */
 @Service
 @Transactional(readOnly = true)
 public class AbsenceQueryService extends QueryService<Absence> {
@@ -37,16 +40,21 @@ public class AbsenceQueryService extends QueryService<Absence> {
 
     private final AbsenceMapper absenceMapper;
 
-    public AbsenceQueryService(AbsenceRepository absenceRepository, AbsenceMapper absenceMapper) {
+    private final IEleveRestClient iEleveRestClient;
+    private final CoursRepository coursRepository;
+    private final IMatiereRestClient iMatiereRestClient;
+    private final IClasseRestClient iClasseRestClient;
+    private final IAnneRestClient iAnneRestClient;
+
+    public AbsenceQueryService(AbsenceRepository absenceRepository, AbsenceMapper absenceMapper, IEleveRestClient iEleveRestClient, CoursRepository coursRepository, IMatiereRestClient iMatiereRestClient, IClasseRestClient iClasseRestClient, IAnneRestClient iAnneRestClient) {
         this.absenceRepository = absenceRepository;
         this.absenceMapper = absenceMapper;
+        this.iEleveRestClient = iEleveRestClient;
+        this.coursRepository = coursRepository;
+        this.iMatiereRestClient = iMatiereRestClient;
+        this.iClasseRestClient = iClasseRestClient;
+        this.iAnneRestClient = iAnneRestClient;
     }
-
-    /**
-     * Return a {@link List} of {@link AbsenceDTO} which matches the criteria from the database.
-     * @param criteria The object which holds all the filters, which the entities should match.
-     * @return the matching entities.
-     */
     @Transactional(readOnly = true)
     public List<AbsenceDTO> findByCriteria(AbsenceCriteria criteria) {
         log.debug("find by criteria : {}", criteria);
@@ -54,37 +62,32 @@ public class AbsenceQueryService extends QueryService<Absence> {
         return absenceMapper.toDto(absenceRepository.findAll(specification));
     }
 
-    /**
-     * Return a {@link Page} of {@link AbsenceDTO} which matches the criteria from the database.
-     * @param criteria The object which holds all the filters, which the entities should match.
-     * @param page The page, which should be returned.
-     * @return the matching entities.
-     */
     @Transactional(readOnly = true)
     public Page<AbsenceDTO> findByCriteria(AbsenceCriteria criteria, Pageable page) {
         log.debug("find by criteria : {}, page: {}", criteria, page);
         final Specification<Absence> specification = createSpecification(criteria);
-        return absenceRepository.findAll(specification, page)
-            .map(absenceMapper::toDto);
+        Page<Absence> absencePage=absenceRepository.findAll(specification, page);
+        for (Absence a :absencePage.getContent()){
+            EleveClient eleveClient=iEleveRestClient.getEleve(a.getIdEleve()).getBody();
+            a.setEleveClient(eleveClient);
+            Cours cours=coursRepository.findById(a.getCours().getId()).get();
+            MatiereClient matiereClient=iMatiereRestClient.getMatiere(cours.getIdMatiere()).getBody();
+            ClasseClient classeClient=iClasseRestClient.getClasse(cours.getIdClasse()).getBody();
+            AnneeClient anneeClient=iAnneRestClient.getAnnee(cours.getIdAnnee()).getBody();
+            cours.setMatiereClient(matiereClient);
+            cours.setClasseClient(classeClient);
+            cours.setAnneeClient(anneeClient);
+            a.setEleveClient(eleveClient);
+            a.setCours(cours);
+        }
+        return absencePage.map(absenceMapper::toDto);
     }
-
-    /**
-     * Return the number of matching entities in the database.
-     * @param criteria The object which holds all the filters, which the entities should match.
-     * @return the number of matching entities.
-     */
     @Transactional(readOnly = true)
     public long countByCriteria(AbsenceCriteria criteria) {
         log.debug("count by criteria : {}", criteria);
         final Specification<Absence> specification = createSpecification(criteria);
         return absenceRepository.count(specification);
     }
-
-    /**
-     * Function to convert {@link AbsenceCriteria} to a {@link Specification}
-     * @param criteria The object which holds all the filters, which the entities should match.
-     * @return the matching {@link Specification} of the entity.
-     */
     protected Specification<Absence> createSpecification(AbsenceCriteria criteria) {
         Specification<Absence> specification = Specification.where(null);
         if (criteria != null) {

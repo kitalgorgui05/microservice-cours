@@ -13,9 +13,6 @@ import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * A Horaire.
- */
 @Entity
 @Table(name = "horaires")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
@@ -28,8 +25,12 @@ public class Horaire implements Serializable {
     private String id;
 
     @NotNull
-    @Column(name = "horaire", nullable = false)
-    private Instant horaire;
+    @Column(name = "heur_debut", nullable = false)
+    private Instant heurDedut;
+
+    @NotNull
+    @Column(name = "heur_fin", nullable = false)
+    private Instant heurFin;
 
     @OneToMany(mappedBy = "horaire")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
@@ -44,17 +45,20 @@ public class Horaire implements Serializable {
         this.id = id;
     }
 
-    public Instant getHoraire() {
-        return horaire;
+    public Instant getHeurDedut() {
+        return heurDedut;
     }
 
-    public Horaire horaire(Instant horaire) {
-        this.horaire = horaire;
-        return this;
+    public void setHeurDedut(Instant heurDedut) {
+        this.heurDedut = heurDedut;
     }
 
-    public void setHoraire(Instant horaire) {
-        this.horaire = horaire;
+    public Instant getHeurFin() {
+        return heurFin;
+    }
+
+    public void setHeurFin(Instant heurFin) {
+        this.heurFin = heurFin;
     }
 
     public Set<Cours> getCours() {
@@ -104,7 +108,8 @@ public class Horaire implements Serializable {
     public String toString() {
         return "Horaire{" +
             "id=" + getId() +
-            ", horaire='" + getHoraire() + "'" +
+            ", heurDebut='" + getHeurDedut() + "'" +
+            ", heurFin='" +getHeurFin() + "'" +
             "}";
     }
 }

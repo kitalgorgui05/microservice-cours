@@ -16,18 +16,22 @@
             <column name="id" type="varchar(255)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="horaire" type="datetime">
+            <column name="heur_debut" type="datetime">
+                <constraints nullable="false" />
+            </column>
+            <column name="heur_fin" type="datetime">
                 <constraints nullable="false" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
-        <dropDefaultValue tableName="horaires" columnName="horaire" columnDataType="datetime"/>
-    </changeSet>
+    <dropDefaultValue tableName="horaires" columnName="heur_debut" columnDataType="datetime"/>
+    <dropDefaultValue tableName="horaires" columnName="heur_fin" columnDataType="datetime"/>
+ </changeSet>
 
-    <changeSet id="20220827005601-1-relations" author="jhipster">
+ <changeSet id="20220827005601-1-relations" author="jhipster">
 
-    </changeSet>
-    <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
+ </changeSet>
+ <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
 
     <!--
         Load sample data generated with Faker.js

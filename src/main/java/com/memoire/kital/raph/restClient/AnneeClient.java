@@ -1,15 +1,16 @@
 package com.memoire.kital.raph.restClient;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 
+
 public class AnneeClient  implements Serializable {
-
     private String id;
-
-    @NotNull
-    @Size(min = 4, max = 50)
     private String nom;
 
     public String getId() {
@@ -48,9 +49,9 @@ public class AnneeClient  implements Serializable {
     // prettier-ignore
     @Override
     public String toString() {
-        return "AnneeDTO{" +
+        return "AnneeClient{" +
             "id=" + getId() +
-            ", nom='" + getNom() + "'" +
+            ", nom='" + getNom() +
             "}";
     }
 }

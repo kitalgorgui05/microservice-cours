@@ -4,22 +4,31 @@ import com.memoire.kital.raph.restClient.AnneeClient;
 import com.memoire.kital.raph.restClient.ClasseClient;
 import com.memoire.kital.raph.restClient.MatiereClient;
 
-import javax.validation.constraints.*;
 import java.io.Serializable;
 
-public class CoursDTO implements Serializable {
+public class CoursDTO1 implements Serializable {
     private String id;
-    private String idMatiere;
     private MatiereClient matiereClient;
-    private String idClasse;
     private ClasseClient classeClient;
-    private String idAnnee;
     private AnneeClient anneeClient;
-
-    //private String horaireId;
     private EnseignantDTO1 enseignant;
-
     private HoraireDTO horaire;
+
+    public CoursDTO1(String id, MatiereClient matiereClient, ClasseClient classeClient, AnneeClient anneeClient, EnseignantDTO1 enseignant, HoraireDTO horaire) {
+        this.id = id;
+        this.matiereClient = matiereClient;
+        this.classeClient = classeClient;
+        this.anneeClient = anneeClient;
+        this.enseignant = enseignant;
+        this.horaire = horaire;
+    }
+
+    public CoursDTO1(String id) {
+        this.id = id;
+    }
+
+    public CoursDTO1() {
+    }
 
     public MatiereClient getMatiereClient() {
         return matiereClient;
@@ -45,39 +54,12 @@ public class CoursDTO implements Serializable {
         this.anneeClient = anneeClient;
     }
 
-    //private String enseignantId;
-
-
     public String getId() {
         return id;
     }
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getIdMatiere() {
-        return idMatiere;
-    }
-
-    public void setIdMatiere(String idMatiere) {
-        this.idMatiere = idMatiere;
-    }
-
-    public String getIdClasse() {
-        return idClasse;
-    }
-
-    public void setIdClasse(String idClasse) {
-        this.idClasse = idClasse;
-    }
-
-    public String getIdAnnee() {
-        return idAnnee;
-    }
-
-    public void setIdAnnee(String idAnnee) {
-        this.idAnnee = idAnnee;
     }
 
     public EnseignantDTO1 getEnseignant() {
@@ -101,11 +83,11 @@ public class CoursDTO implements Serializable {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof CoursDTO)) {
+        if (!(o instanceof CoursDTO1)) {
             return false;
         }
 
-        return id != null && id.equals(((CoursDTO) o).id);
+        return id != null && id.equals(((CoursDTO1) o).id);
     }
 
     @Override
@@ -118,12 +100,9 @@ public class CoursDTO implements Serializable {
     public String toString() {
         return "CoursDTO{" +
             "id=" + getId() +
-            ", idMatiere='" + getIdMatiere() + "'" +
-            ", matiereClient='" + getMatiereClient() + "'" +
-            ", idClasse='" + getIdClasse() + "'" +
-            ", classeClient='" + getClasseClient() + "'" +
-            ", idAnnee='" + getIdAnnee() + "'" +
-            ", anneeClient='" + getAnneeClient() + "'" +
+            ", matiereClient=" + getMatiereClient()+"'" +
+            ", classeClient=" + getClasseClient()+"'" +
+            ", AnneeClient=" + getAnneeClient()+"'" +
             ", enseignant=" + getEnseignant()+"'" +
             ", horaire=" + getHoraire() +
             "}";

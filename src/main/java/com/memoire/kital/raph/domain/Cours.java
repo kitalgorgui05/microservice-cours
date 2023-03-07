@@ -16,9 +16,6 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * A Cours.
- */
 @Entity
 @Table(name = "cours")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
@@ -44,30 +41,6 @@ public class Cours implements Serializable {
 
     @Transient
     private ClasseClient classeClient;
-
-    public MatiereClient getMatiereClient() {
-        return matiereClient;
-    }
-
-    public void setMatiereClient(MatiereClient matiereClient) {
-        this.matiereClient = matiereClient;
-    }
-
-    public ClasseClient getClasseClient() {
-        return classeClient;
-    }
-
-    public void setClasseClient(ClasseClient classeClient) {
-        this.classeClient = classeClient;
-    }
-
-    public AnneeClient getAnneeClient() {
-        return anneeClient;
-    }
-
-    public void setAnneeClient(AnneeClient anneeClient) {
-        this.anneeClient = anneeClient;
-    }
 
     @NotNull
     @Size(min = 2, max = 255)
@@ -98,21 +71,9 @@ public class Cours implements Serializable {
         this.id = id;
     }
 
-    public String getIdMatiere() {
-        return idMatiere;
-    }
-
     public Cours idMatiere(String idMatiere) {
         this.idMatiere = idMatiere;
         return this;
-    }
-
-    public void setIdMatiere(String idMatiere) {
-        this.idMatiere = idMatiere;
-    }
-
-    public String getIdClasse() {
-        return idClasse;
     }
 
     public Cours idClasse(String idClasse) {
@@ -120,21 +81,57 @@ public class Cours implements Serializable {
         return this;
     }
 
+    public Cours idAnnee(String idAnnee) {
+        this.idAnnee = idAnnee;
+        return this;
+    }
+
+    public String getIdMatiere() {
+        return idMatiere;
+    }
+
+    public void setIdMatiere(String idMatiere) {
+        this.idMatiere = idMatiere;
+    }
+
+    public MatiereClient getMatiereClient() {
+        return matiereClient;
+    }
+
+    public void setMatiereClient(MatiereClient matiereClient) {
+        this.matiereClient = matiereClient;
+    }
+
+    public String getIdClasse() {
+        return idClasse;
+    }
+
     public void setIdClasse(String idClasse) {
         this.idClasse = idClasse;
+    }
+
+    public ClasseClient getClasseClient() {
+        return classeClient;
+    }
+
+    public void setClasseClient(ClasseClient classeClient) {
+        this.classeClient = classeClient;
     }
 
     public String getIdAnnee() {
         return idAnnee;
     }
 
-    public Cours idAnnee(String idAnnee) {
-        this.idAnnee = idAnnee;
-        return this;
-    }
-
     public void setIdAnnee(String idAnnee) {
         this.idAnnee = idAnnee;
+    }
+
+    public AnneeClient getAnneeClient() {
+        return anneeClient;
+    }
+
+    public void setAnneeClient(AnneeClient anneeClient) {
+        this.anneeClient = anneeClient;
     }
 
     public Set<Absence> getAbsences() {

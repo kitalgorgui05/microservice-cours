@@ -1,24 +1,14 @@
 package com.memoire.kital.raph.restClient;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
-
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
 
-public class NiveauClient {
-
+public class NiveauClient implements Serializable {
     private String id;
-
-    @NotNull
-    @Size(min = 3, max = 15)
     private String nom;
 
     private Set<MatiereClient> matieres = new HashSet<>();

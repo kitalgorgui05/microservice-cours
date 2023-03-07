@@ -1,11 +1,7 @@
 package com.memoire.kital.raph.service.impl;
 
-import com.memoire.kital.raph.openFeign.AnneRestClient;
-import com.memoire.kital.raph.openFeign.ClasseRestClient;
-import com.memoire.kital.raph.openFeign.MatiereRestClient;
-import com.memoire.kital.raph.restClient.AnneeClient;
-import com.memoire.kital.raph.restClient.ClasseClient;
-import com.memoire.kital.raph.restClient.MatiereClient;
+import com.memoire.kital.raph.openFeign.*;
+import com.memoire.kital.raph.restClient.*;
 import com.memoire.kital.raph.service.CoursService;
 import com.memoire.kital.raph.domain.Cours;
 import com.memoire.kital.raph.repository.CoursRepository;
@@ -16,14 +12,13 @@ import org.slf4j.LoggerFactory;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
-/**
- * Service Implementation for managing {@link Cours}.
- */
 @Service
 @Transactional
 public class CoursServiceImpl implements CoursService {
@@ -34,18 +29,21 @@ public class CoursServiceImpl implements CoursService {
 
     private final CoursMapper coursMapper;
 
-    private final ClasseRestClient classeRestClient;
+    private final IClasseRestClient iClasseRestClient;
 
-    private final MatiereRestClient matiereRestClient;
+    private final IMatiereRestClient iMatiereRestClient;
 
-    private final AnneRestClient anneRestClient;
+    private final IAnneRestClient anneRestClient;
 
-    public CoursServiceImpl(CoursRepository coursRepository, CoursMapper coursMapper, ClasseRestClient classeRestClient, MatiereRestClient matiereRestClient, AnneRestClient anneRestClient) {
+    private final INiveauRestClient iNiveauRestClient;
+
+    public CoursServiceImpl(CoursRepository coursRepository, CoursMapper coursMapper, IClasseRestClient iClasseRestClient, IMatiereRestClient iMatiereRestClient, IAnneRestClient anneRestClient,INiveauRestClient iNiveauRestClient) {
         this.coursRepository = coursRepository;
         this.coursMapper = coursMapper;
-        this.classeRestClient = classeRestClient;
-        this.matiereRestClient = matiereRestClient;
+        this.iClasseRestClient = iClasseRestClient;
+        this.iMatiereRestClient = iMatiereRestClient;
         this.anneRestClient = anneRestClient;
+        this.iNiveauRestClient = iNiveauRestClient;
     }
 
     @Override
@@ -64,16 +62,32 @@ public class CoursServiceImpl implements CoursService {
             .map(coursMapper::toDto);
     }
 
+    @Override
+    public ResponseEntity<List<AnneeClient>> getAllAnnee() {
+        return anneRestClient.getAllAnnees();
+    }
+
+    @Override
+    public ResponseEntity<List<ClasseClient>> getAllClasse() {
+        return iClasseRestClient.getAllClasses();
+    }
+
+    @Override
+    public ResponseEntity<List<MatiereClient>> getAllMatiere() {
+        return iMatiereRestClient.getAllMatieres();
+    }
+    @Override
+    public List<NiveauClient> getAllNiveau() {
+        return iNiveauRestClient.getAllNiveaus();
+    }
+
 
     @Override
     @Transactional(readOnly = true)
     public Optional<CoursDTO> findOne(String id) {
-/*        log.debug("Request to get Cours : {}", id);
-        return coursRepository.findById(id)
-            .map(coursMapper::toDto);*/
         Cours cours= coursRepository.findById(id).get();
-        ClasseClient classeClient= classeRestClient.getClasse(cours.getIdClasse()).getBody();
-        MatiereClient matiereClient=matiereRestClient.getMatiere(cours.getIdMatiere()).getBody();
+        ClasseClient classeClient= iClasseRestClient.getClasse(cours.getIdClasse()).getBody();
+        MatiereClient matiereClient=iMatiereRestClient.getMatiere(cours.getIdMatiere()).getBody();
         AnneeClient anneeClient = anneRestClient.getAnnee(cours.getIdAnnee()).getBody();
         cours.setClasseClient(classeClient);
         cours.setMatiereClient(matiereClient);

@@ -1,5 +1,6 @@
 package com.memoire.kital.raph.web.rest;
 
+import com.memoire.kital.raph.restClient.*;
 import com.memoire.kital.raph.service.CoursService;
 import com.memoire.kital.raph.web.rest.errors.BadRequestAlertException;
 import com.memoire.kital.raph.service.dto.CoursDTO;
@@ -49,13 +50,6 @@ public class CoursResource {
         this.coursQueryService = coursQueryService;
     }
 
-    /**
-     * {@code POST  /cours} : Create a new cours.
-     *
-     * @param coursDTO the coursDTO to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new coursDTO, or with status {@code 400 (Bad Request)} if the cours has already an ID.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
-     */
     @PostMapping("/cours")
     public ResponseEntity<CoursDTO> createCours(@Valid @RequestBody CoursDTO coursDTO) throws URISyntaxException {
         log.debug("REST request to save Cours : {}", coursDTO);
@@ -68,15 +62,6 @@ public class CoursResource {
             .body(result);
     }
 
-    /**
-     * {@code PUT  /cours} : Updates an existing cours.
-     *
-     * @param coursDTO the coursDTO to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated coursDTO,
-     * or with status {@code 400 (Bad Request)} if the coursDTO is not valid,
-     * or with status {@code 500 (Internal Server Error)} if the coursDTO couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
-     */
     @PutMapping("/cours")
     public ResponseEntity<CoursDTO> updateCours(@Valid @RequestBody CoursDTO coursDTO) throws URISyntaxException {
         log.debug("REST request to update Cours : {}", coursDTO);
@@ -89,13 +74,6 @@ public class CoursResource {
             .body(result);
     }
 
-    /**
-     * {@code GET  /cours} : get all the cours.
-     *
-     * @param pageable the pagination information.
-     * @param criteria the criteria which the requested entities should match.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of cours in body.
-     */
     @GetMapping("/cours")
     public ResponseEntity<List<CoursDTO>> getAllCours(CoursCriteria criteria, Pageable pageable) {
         log.debug("REST request to get Cours by criteria: {}", criteria);
@@ -104,24 +82,12 @@ public class CoursResource {
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
-    /**
-     * {@code GET  /cours/count} : count all the cours.
-     *
-     * @param criteria the criteria which the requested entities should match.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
-     */
     @GetMapping("/cours/count")
     public ResponseEntity<Long> countCours(CoursCriteria criteria) {
         log.debug("REST request to count Cours by criteria: {}", criteria);
         return ResponseEntity.ok().body(coursQueryService.countByCriteria(criteria));
     }
 
-    /**
-     * {@code GET  /cours/:id} : get the "id" cours.
-     *
-     * @param id the id of the coursDTO to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the coursDTO, or with status {@code 404 (Not Found)}.
-     */
     @GetMapping("/cours/{id}")
     public ResponseEntity<CoursDTO> getCours(@PathVariable String id) {
         log.debug("REST request to get Cours : {}", id);
@@ -129,12 +95,23 @@ public class CoursResource {
         return ResponseUtil.wrapOrNotFound(coursDTO);
     }
 
-    /**
-     * {@code DELETE  /cours/:id} : delete the "id" cours.
-     *
-     * @param id the id of the coursDTO to delete.
-     * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
-     */
+    @GetMapping("/cours/niveaus")
+    public List<NiveauClient> getAllNiveau(){
+        return coursService.getAllNiveau();
+    }
+    @GetMapping("/cours/classes")
+    public ResponseEntity<List<ClasseClient>> getClasses(){
+        return coursService.getAllClasse();
+    }
+
+    @GetMapping("/cours/matieres")
+    public ResponseEntity<List<MatiereClient>> getMatieres(){
+        return coursService.getAllMatiere();
+    }
+    @GetMapping("/cours/annees")
+    public ResponseEntity<List<AnneeClient>> getAnnees(){
+        return coursService.getAllAnnee();
+    }
     @DeleteMapping("/cours/{id}")
     public ResponseEntity<Void> deleteCours(@PathVariable String id) {
         log.debug("REST request to delete Cours : {}", id);

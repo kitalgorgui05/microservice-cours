@@ -1,10 +1,13 @@
 package com.memoire.kital.raph.service;
 
+import com.memoire.kital.raph.restClient.*;
 import com.memoire.kital.raph.service.dto.CoursDTO;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -12,35 +15,14 @@ import java.util.Optional;
  */
 public interface CoursService {
 
-    /**
-     * Save a cours.
-     *
-     * @param coursDTO the entity to save.
-     * @return the persisted entity.
-     */
     CoursDTO save(CoursDTO coursDTO);
-
-    /**
-     * Get all the cours.
-     *
-     * @param pageable the pagination information.
-     * @return the list of entities.
-     */
     Page<CoursDTO> findAll(Pageable pageable);
 
 
-    /**
-     * Get the "id" cours.
-     *
-     * @param id the id of the entity.
-     * @return the entity.
-     */
+    List<NiveauClient> getAllNiveau();
+    ResponseEntity<List<AnneeClient>> getAllAnnee();
+   ResponseEntity<List<ClasseClient>> getAllClasse();
+    ResponseEntity<List<MatiereClient>> getAllMatiere();
     Optional<CoursDTO> findOne(String id);
-
-    /**
-     * Delete the "id" cours.
-     *
-     * @param id the id of the entity.
-     */
     void delete(String id);
 }

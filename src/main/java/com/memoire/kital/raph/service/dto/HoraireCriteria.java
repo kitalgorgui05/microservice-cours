@@ -12,20 +12,13 @@ import io.github.jhipster.service.filter.LongFilter;
 import io.github.jhipster.service.filter.StringFilter;
 import io.github.jhipster.service.filter.InstantFilter;
 
-/**
- * Criteria class for the {@link com.memoire.kital.raph.domain.Horaire} entity. This class is used
- * in {@link com.memoire.kital.raph.web.rest.HoraireResource} to receive all the possible filtering options from
- * the Http GET request parameters.
- * For example the following could be a valid request:
- * {@code /horaires?id.greaterThan=5&attr1.contains=something&attr2.specified=false}
- * As Spring is unable to properly convert the types, unless specific {@link Filter} class are used, we need to use
- * fix type specific filters.
- */
+
 public class HoraireCriteria implements Serializable, Criteria {
 
     private StringFilter id;
 
-    private InstantFilter horaire;
+    private InstantFilter heurDebut;
+    private InstantFilter heurFin;
 
     private StringFilter coursId;
 
@@ -34,7 +27,8 @@ public class HoraireCriteria implements Serializable, Criteria {
 
     public HoraireCriteria(HoraireCriteria other) {
         this.id = other.id == null ? null : other.id.copy();
-        this.horaire = other.horaire == null ? null : other.horaire.copy();
+        this.heurDebut = other.heurDebut == null ? null : other.heurDebut.copy();
+        this.heurFin = other.heurFin == null ? null : other.heurFin.copy();
         this.coursId = other.coursId == null ? null : other.coursId.copy();
     }
 
@@ -51,12 +45,20 @@ public class HoraireCriteria implements Serializable, Criteria {
         this.id = id;
     }
 
-    public InstantFilter getHoraire() {
-        return horaire;
+    public InstantFilter getHeurDebut() {
+        return heurDebut;
     }
 
-    public void setHoraire(InstantFilter horaire) {
-        this.horaire = horaire;
+    public void setHeurDebut(InstantFilter heurDebut) {
+        this.heurDebut = heurDebut;
+    }
+
+    public InstantFilter getHeurFin() {
+        return heurFin;
+    }
+
+    public void setHeurFin(InstantFilter heurFin) {
+        this.heurFin = heurFin;
     }
 
     public StringFilter getCoursId() {
@@ -79,7 +81,8 @@ public class HoraireCriteria implements Serializable, Criteria {
         final HoraireCriteria that = (HoraireCriteria) o;
         return
             Objects.equals(id, that.id) &&
-            Objects.equals(horaire, that.horaire) &&
+            Objects.equals(heurDebut, that.heurDebut) &&
+            Objects.equals(heurFin, that.heurFin) &&
             Objects.equals(coursId, that.coursId);
     }
 
@@ -87,7 +90,8 @@ public class HoraireCriteria implements Serializable, Criteria {
     public int hashCode() {
         return Objects.hash(
         id,
-        horaire,
+        heurDebut,
+        heurFin,
         coursId
         );
     }
@@ -97,7 +101,8 @@ public class HoraireCriteria implements Serializable, Criteria {
     public String toString() {
         return "HoraireCriteria{" +
                 (id != null ? "id=" + id + ", " : "") +
-                (horaire != null ? "horaire=" + horaire + ", " : "") +
+                (heurDebut != null ? "heurDebut=" + heurDebut + ", " : "") +
+                (heurFin != null ? "heurFin=" + heurFin + ", " : "") +
                 (coursId != null ? "coursId=" + coursId + ", " : "") +
             "}";
     }

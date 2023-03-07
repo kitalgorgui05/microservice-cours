@@ -1,19 +1,29 @@
 package com.memoire.kital.raph.service.dto;
 
 import java.time.Instant;
+import javax.persistence.Column;
 import javax.validation.constraints.*;
 import java.io.Serializable;
 
-/**
- * A DTO for the {@link com.memoire.kital.raph.domain.Horaire} entity.
- */
 public class HoraireDTO implements Serializable {
 
     private String id;
+    private Instant heurDedut;
 
-    @NotNull
-    private Instant horaire;
+    private Instant heurFin;
 
+    public HoraireDTO(String id, Instant heurDedut, Instant heurFin) {
+        this.id = id;
+        this.heurDedut = heurDedut;
+        this.heurFin = heurFin;
+    }
+
+    public HoraireDTO(String id) {
+        this.id = id;
+    }
+
+    public HoraireDTO() {
+    }
 
     public String getId() {
         return id;
@@ -23,12 +33,20 @@ public class HoraireDTO implements Serializable {
         this.id = id;
     }
 
-    public Instant getHoraire() {
-        return horaire;
+    public Instant getHeurDedut() {
+        return heurDedut;
     }
 
-    public void setHoraire(Instant horaire) {
-        this.horaire = horaire;
+    public void setHeurDedut(Instant heurDedut) {
+        this.heurDedut = heurDedut;
+    }
+
+    public Instant getHeurFin() {
+        return heurFin;
+    }
+
+    public void setHeurFin(Instant heurFin) {
+        this.heurFin = heurFin;
     }
 
     @Override
@@ -53,7 +71,8 @@ public class HoraireDTO implements Serializable {
     public String toString() {
         return "HoraireDTO{" +
             "id=" + getId() +
-            ", horaire='" + getHoraire() + "'" +
+            ", heurDebut='" + getHeurDedut() + "'" +
+            ", heurFin='" + getHeurFin() + "'" +
             "}";
     }
 }

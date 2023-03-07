@@ -4,6 +4,12 @@ import java.util.List;
 
 import javax.persistence.criteria.JoinType;
 
+import com.memoire.kital.raph.openFeign.IAnneRestClient;
+import com.memoire.kital.raph.openFeign.IClasseRestClient;
+import com.memoire.kital.raph.openFeign.IMatiereRestClient;
+import com.memoire.kital.raph.restClient.AnneeClient;
+import com.memoire.kital.raph.restClient.ClasseClient;
+import com.memoire.kital.raph.restClient.MatiereClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -37,16 +43,17 @@ public class CoursQueryService extends QueryService<Cours> {
 
     private final CoursMapper coursMapper;
 
-    public CoursQueryService(CoursRepository coursRepository, CoursMapper coursMapper) {
+    private final IMatiereRestClient iMatiereRestClient;
+    private final IClasseRestClient iClasseRestClient;
+    private final IAnneRestClient iAnneRestClient;
+
+    public CoursQueryService(CoursRepository coursRepository, CoursMapper coursMapper, IMatiereRestClient iMatiereRestClient, IClasseRestClient iClasseRestClient, IAnneRestClient iAnneRestClient) {
         this.coursRepository = coursRepository;
         this.coursMapper = coursMapper;
+        this.iMatiereRestClient = iMatiereRestClient;
+        this.iClasseRestClient = iClasseRestClient;
+        this.iAnneRestClient = iAnneRestClient;
     }
-
-    /**
-     * Return a {@link List} of {@link CoursDTO} which matches the criteria from the database.
-     * @param criteria The object which holds all the filters, which the entities should match.
-     * @return the matching entities.
-     */
     @Transactional(readOnly = true)
     public List<CoursDTO> findByCriteria(CoursCriteria criteria) {
         log.debug("find by criteria : {}", criteria);
@@ -54,17 +61,20 @@ public class CoursQueryService extends QueryService<Cours> {
         return coursMapper.toDto(coursRepository.findAll(specification));
     }
 
-    /**
-     * Return a {@link Page} of {@link CoursDTO} which matches the criteria from the database.
-     * @param criteria The object which holds all the filters, which the entities should match.
-     * @param page The page, which should be returned.
-     * @return the matching entities.
-     */
     @Transactional(readOnly = true)
     public Page<CoursDTO> findByCriteria(CoursCriteria criteria, Pageable page) {
         log.debug("find by criteria : {}, page: {}", criteria, page);
         final Specification<Cours> specification = createSpecification(criteria);
-        return coursRepository.findAll(specification, page)
+        Page<Cours> coursPage=coursRepository.findAll(specification, page);
+        for (Cours c : coursPage.getContent()){
+            ClasseClient classeClient= iClasseRestClient.getClasse(c.getIdClasse()).getBody();
+            MatiereClient matiereClient=iMatiereRestClient.getMatiere(c.getIdMatiere()).getBody();
+            AnneeClient anneeClient = iAnneRestClient.getAnnee(c.getIdAnnee()).getBody();
+            c.setClasseClient(classeClient);
+            c.setMatiereClient(matiereClient);
+            c.setAnneeClient(anneeClient);
+        }
+        return coursPage
             .map(coursMapper::toDto);
     }
 

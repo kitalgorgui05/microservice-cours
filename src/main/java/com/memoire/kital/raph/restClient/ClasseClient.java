@@ -12,51 +12,23 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 
-public class ClasseClient {
+public class ClasseClient implements Serializable {
     private String id;
-    @NotNull
-    @Size(min = 4, max = 50)
     private String nom;
-
-    @NotNull
-    @Size(min = 5, max = 50)
-    private String mensualite;
-
-    //private String niveauId;
-
-    private NiveauClient niveauDTO;
-
-    public NiveauClient getNiveauClient() {
-        return niveauDTO;
-    }
-
-    public void setNiveauClient(NiveauClient niveauDTO) {
-        this.niveauDTO = niveauDTO;
-    }
 
     public String getId() {
         return id;
     }
-
     public void setId(String id) {
         this.id = id;
     }
-
     public String getNom() {
         return nom;
     }
-
     public void setNom(String nom) {
         this.nom = nom;
-    }
-
-    public String getMensualite() {
-        return mensualite;
-    }
-
-    public void setMensualite(String mensualite) {
-        this.mensualite = mensualite;
     }
 
     @Override
@@ -67,7 +39,6 @@ public class ClasseClient {
         if (!(o instanceof ClasseClient)) {
             return false;
         }
-
         return id != null && id.equals(((ClasseClient) o).id);
     }
 
@@ -76,15 +47,11 @@ public class ClasseClient {
         return 31;
     }
 
-    // prettier-ignore
     @Override
     public String toString() {
-        return "ClasseDTO{" +
+        return "ClasseClient{" +
             "id=" + getId() +
             ", nom='" + getNom() + "'" +
-            ", mensualite='" + getMensualite() + "'" +
-            ", niveauClient=" + getNiveauClient() +
             "}";
     }
-
 }

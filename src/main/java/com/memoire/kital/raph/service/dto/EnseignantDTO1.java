@@ -1,19 +1,26 @@
 package com.memoire.kital.raph.service.dto;
 
-import javax.validation.constraints.*;
 import java.io.Serializable;
-import javax.persistence.Lob;
 
-public class EnseignantDTO implements Serializable {
-
+public class EnseignantDTO1 implements Serializable {
     private String id;
-
     private String nom;
     private String prenom;
-    private String adresse;
-    private String telephone;
-    private String email;
 
+    //all constructor
+
+
+    public EnseignantDTO1(String id, String nom, String prenom) {
+        this.id = id;
+        this.nom = nom;
+        this.prenom = prenom;
+    }
+
+    public EnseignantDTO1() {
+    }
+    public EnseignantDTO1(String id) {
+        this.id = id;
+    }
 
     public String getId() {
         return id;
@@ -39,40 +46,16 @@ public class EnseignantDTO implements Serializable {
         this.prenom = prenom;
     }
 
-    public String getAdresse() {
-        return adresse;
-    }
-
-    public void setAdresse(String adresse) {
-        this.adresse = adresse;
-    }
-
-    public String getTelephone() {
-        return telephone;
-    }
-
-    public void setTelephone(String telephone) {
-        this.telephone = telephone;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof EnseignantDTO)) {
+        if (!(o instanceof EnseignantDTO1)) {
             return false;
         }
 
-        return id != null && id.equals(((EnseignantDTO) o).id);
+        return id != null && id.equals(((EnseignantDTO1) o).id);
     }
 
     @Override
@@ -83,13 +66,10 @@ public class EnseignantDTO implements Serializable {
     // prettier-ignore
     @Override
     public String toString() {
-        return "EnseignantDTO{" +
+        return "EnseignantDTO1{" +
             "id=" + getId() +
             ", nom='" + getNom() + "'" +
             ", prenom='" + getPrenom() + "'" +
-            ", adresse='" + getAdresse() + "'" +
-            ", telephone='" + getTelephone() + "'" +
-            ", email='" + getEmail() + "'" +
             "}";
     }
 }

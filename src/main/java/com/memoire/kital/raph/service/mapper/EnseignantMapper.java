@@ -6,9 +6,6 @@ import com.memoire.kital.raph.service.dto.EnseignantDTO;
 
 import org.mapstruct.*;
 
-/**
- * Mapper for the entity {@link Enseignant} and its DTO {@link EnseignantDTO}.
- */
 @Mapper(componentModel = "spring", uses = {})
 public interface EnseignantMapper extends EntityMapper<EnseignantDTO, Enseignant> {
 

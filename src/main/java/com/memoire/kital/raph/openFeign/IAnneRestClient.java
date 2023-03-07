@@ -5,13 +5,12 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
-@FeignClient(name = "inscription" , url = "http://localhost:9081/")
-public interface AnneRestClient {
+@FeignClient(name = "${jhipster.clientApp.name}" , url = "http://localhost:8888")
+public interface IAnneRestClient {
     @GetMapping("/api/annees")
     public ResponseEntity<List<AnneeClient>> getAllAnnees();
     @GetMapping("/api/annees/{id}")
-    public ResponseEntity<AnneeClient> getAnnee(@PathVariable("id") String id);
+    public ResponseEntity<AnneeClient> getAnnee(@PathVariable(name = "id") String id);
 }

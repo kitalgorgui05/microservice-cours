@@ -6,20 +6,11 @@ import com.memoire.kital.raph.service.dto.CoursDTO;
 
 import org.mapstruct.*;
 
-/**
- * Mapper for the entity {@link Cours} and its DTO {@link CoursDTO}.
- */
 @Mapper(componentModel = "spring", uses = {EnseignantMapper.class, HoraireMapper.class})
 public interface CoursMapper extends EntityMapper<CoursDTO, Cours> {
-
-    //@Mapping(source = "enseignant.id", target = "enseignant")
-    @Mapping(source = "horaire.id", target = "horaireId")
     CoursDTO toDto(Cours cours);
-
     @Mapping(target = "absences", ignore = true)
     @Mapping(target = "removeAbsence", ignore = true)
-    //@Mapping(source = "enseignantId", target = "enseignant.id")
-    @Mapping(source = "horaireId", target = "horaire.id")
     Cours toEntity(CoursDTO coursDTO);
 
     default Cours fromId(String id) {

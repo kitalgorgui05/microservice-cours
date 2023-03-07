@@ -2,15 +2,13 @@ package com.memoire.kital.raph.restClient;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 
+public class MatiereClient implements Serializable {
 
-public class MatiereClient {
     private String id;
 
-    @NotNull
-    @Size(min = 2, max = 100)
     private String nom;
-
 
     public String getId() {
         return id;
@@ -45,7 +43,6 @@ public class MatiereClient {
         return 31;
     }
 
-    // prettier-ignore
     @Override
     public String toString() {
         return "MatiereClient{" +

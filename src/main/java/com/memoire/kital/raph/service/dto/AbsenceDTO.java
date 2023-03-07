@@ -2,32 +2,16 @@ package com.memoire.kital.raph.service.dto;
 
 import com.memoire.kital.raph.restClient.EleveClient;
 
-import javax.validation.constraints.*;
 import java.io.Serializable;
-import javax.persistence.Lob;
 
-/**
- * A DTO for the {@link com.memoire.kital.raph.domain.Absence} entity.
- */
+
 public class AbsenceDTO implements Serializable {
-
     private String id;
-
-    @NotNull
-    @Size(min = 2, max = 255)
     private String idEleve;
-
     private EleveClient eleveClient;
-
-    @Lob
     private String motif;
-
-    @NotNull
     private Boolean etat;
-
-
-    private String coursId;
-
+    private CoursDTO1 cours;
     public String getId() {
         return id;
     }
@@ -44,6 +28,13 @@ public class AbsenceDTO implements Serializable {
         this.idEleve = idEleve;
     }
 
+    public CoursDTO1 getCours() {
+        return cours;
+    }
+
+    public void setCours(CoursDTO1 cours) {
+        this.cours = cours;
+    }
 
     public EleveClient getEleveClient() {
         return eleveClient;
@@ -69,12 +60,8 @@ public class AbsenceDTO implements Serializable {
         this.etat = etat;
     }
 
-    public String getCoursId() {
-        return coursId;
-    }
-
-    public void setCoursId(String coursId) {
-        this.coursId = coursId;
+    public Boolean getEtat() {
+        return etat;
     }
 
     @Override
@@ -102,7 +89,7 @@ public class AbsenceDTO implements Serializable {
             ", idEleve='" + getIdEleve() + "'" +
             ", motif='" + getMotif() + "'" +
             ", etat='" + isEtat() + "'" +
-            ", coursId=" + getCoursId() +
+            ", coursId=" +getCours() +
             "}";
     }
 }

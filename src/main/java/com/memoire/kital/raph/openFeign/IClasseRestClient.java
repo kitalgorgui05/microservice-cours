@@ -7,10 +7,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@FeignClient(name = "classe" , url = "http://localhost:8086/")
-public interface ClasseRestClient {
+@FeignClient(name = "${jhipster.clientApp.name}" , url = "http://localhost:8802")
+public interface IClasseRestClient {
     @GetMapping("/api/classes")
     public ResponseEntity<List<ClasseClient>> getAllClasses();
     @GetMapping("/api/classes/{id}")
     public ResponseEntity<ClasseClient> getClasse(@PathVariable("id") String id);
+    @GetMapping("/api/classes/niveau/{id}")
+    public  List<ClasseClient> getClasseByNiveau(@PathVariable("id") String id);
 }

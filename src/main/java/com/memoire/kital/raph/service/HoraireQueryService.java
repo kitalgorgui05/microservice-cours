@@ -91,8 +91,11 @@ public class HoraireQueryService extends QueryService<Horaire> {
             if (criteria.getId() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getId(), Horaire_.id));
             }
-            if (criteria.getHoraire() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getHoraire(), Horaire_.horaire));
+            if (criteria.getHeurDebut() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getHeurDebut(), Horaire_.heurDedut));
+            }
+            if (criteria.getHeurFin() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getHeurFin(), Horaire_.heurFin));
             }
             if (criteria.getCoursId() != null) {
                 specification = specification.and(buildSpecification(criteria.getCoursId(),
